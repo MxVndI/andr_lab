@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Генератор Кроссвордов</string>
+    <string name="button_start">Старт</string>
+    <string name="button_new">Новый</string>
+    <string name="button_back">Назад</string>
+    <string name="button_check">Проверить</string>
+    <string name="button_hint">Подсказка</string>
+    <string name="button_clear">Очистить</string>
+    <string name="button_fill_word">Заполнить слово</string>
+    <string name="button_save">Сохранить</string>
+    <string name="horizontal_clues">По горизонтали</string>
+    <string name="vertical_clues">По вертикали</string>
+    <string name="crossword_area">Область кроссворда</string>
+    <string name="status_ready">Готов к работе</string>
+    <string name="status_playing">Игра идет</string>
+    <string name="difficulty_easy">Легкий</string>
+    <string name="difficulty_medium">Средний</string>
+    <string name="difficulty_hard">Сложный</string>
+    <string name="difficulty_custom">Пользовательский</string>
+</resources>
