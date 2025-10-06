@@ -88,23 +88,13 @@
             android:layout_marginStart="16dp">
 
             <Button
-                android:id="@+id/buttonBack"
-                android:layout_width="120dp"
-                android:layout_height="40dp"
-                android:text="@string/button_back"
-                android:textSize="14sp"
-                android:backgroundTint="#607D8B"
-                android:textColor="@android:color/white"
-                android:layout_marginBottom="8dp" />
-
-            <Button
                 android:id="@+id/buttonCheck"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
-                android:text="@string/button_check"
-                android:textSize="14sp"
                 android:backgroundTint="#4CAF50"
-                android:textColor="@android:color/white" />
+                android:text="@string/button_check"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -217,17 +207,6 @@
         android:padding="12dp">
 
         <Button
-            android:id="@+id/buttonHint"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:text="@string/button_hint"
-            android:textSize="14sp"
-            android:backgroundTint="#FFC107"
-            android:textColor="@android:color/black"
-            android:layout_marginEnd="6dp" />
-
-        <Button
             android:id="@+id/buttonClear"
             android:layout_width="0dp"
             android:layout_height="45dp"
@@ -235,17 +214,6 @@
             android:text="@string/button_clear"
             android:textSize="14sp"
             android:backgroundTint="#F44336"
-            android:textColor="@android:color/white"
-            android:layout_marginHorizontal="6dp" />
-
-        <Button
-            android:id="@+id/buttonFillWord"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:text="@string/button_fill_word"
-            android:textSize="14sp"
-            android:backgroundTint="#3F51B5"
             android:textColor="@android:color/white"
             android:layout_marginHorizontal="6dp" />
 
@@ -268,34 +236,6 @@
         android:orientation="horizontal"
         android:background="#424242"
         android:gravity="center_vertical"
-        android:paddingHorizontal="16dp">
-
-        <TextView
-            android:id="@+id/statusText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/status_ready"
-            android:textColor="@android:color/white"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/timerText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="00:00"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            android:layout_marginEnd="16dp" />
-
-        <TextView
-            android:id="@+id/progressText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Слов: 0/0"
-            android:textColor="@android:color/white"
-            android:textSize="12sp" />
-
-    </LinearLayout>
+        android:paddingHorizontal="16dp"/>
 
 </LinearLayout>
