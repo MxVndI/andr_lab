@@ -1,20 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Генератор Кроссвордов</string>
+    <string name="app_name">Labs Crossword</string>
+
+    <!-- Общие строки -->
+    <string name="error_required_field">Обязательное поле</string>
+    <string name="error_invalid_email">Неверный формат email</string>
+    <string name="error_short_password">Пароль должен содержать минимум 6 символов</string>
+    <string name="error_password_mismatch">Пароли не совпадают</string>
+
+    <!-- Регистрация -->
+    <string name="register_title">Регистрация</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Пароль</string>
+    <string name="confirm_password_hint">Подтвердите пароль</string>
+    <string name="register_button">Зарегистрироваться</string>
+    <string name="login_link">Уже есть аккаунт? Войдите</string>
+
+    <!-- Логин -->
+    <string name="login_title">Вход в систему</string>
+    <string name="login_button">Войти</string>
+    <string name="register_link">Нет аккаунта? Зарегистрируйтесь</string>
+
+    <!-- Главный экран -->
+    <string name="start_game">Начать</string>
+    <string name="new_crossword">Новый</string>
+    <string name="check_crossword">Проверить</string>
+    <string name="clear_crossword">Очистить</string>
+    <string name="save_crossword">Сохранить</string>
+    <string name="horizontal_clues">Горизонтальные подсказки</string>
+    <string name="vertical_clues">Вертикальные подсказки</string>
+    <string name="crossword_area">Область для кроссворда</string>
+    <string name="select_clues_direction">Выберите направление подсказок</string>
     <string name="button_start">Старт</string>
     <string name="button_new">Новый</string>
-    <string name="button_back">Назад</string>
     <string name="button_check">Проверить</string>
-    <string name="button_hint">Подсказка</string>
     <string name="button_clear">Очистить</string>
-    <string name="button_fill_word">Заполнить слово</string>
     <string name="button_save">Сохранить</string>
-    <string name="horizontal_clues">По горизонтали</string>
-    <string name="vertical_clues">По вертикали</string>
-    <string name="crossword_area">Область кроссворда</string>
-    <string name="status_ready">Готов к работе</string>
-    <string name="status_playing">Игра идет</string>
-    <string name="difficulty_easy">Легкий</string>
-    <string name="difficulty_medium">Средний</string>
-    <string name="difficulty_hard">Сложный</string>
-    <string name="difficulty_custom">Пользовательский</string>
+
+    <!-- Тексты -->
 </resources>

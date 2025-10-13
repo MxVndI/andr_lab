@@ -1,8 +1,10 @@
 package com.example.labs
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,17 +19,34 @@ class MainActivity : AppCompatActivity() {
     private lateinit var crosswordView: TextView
     private lateinit var cluesContent: TextView
 
+    private val sharedPreferences by lazy {
+        getSharedPreferences("user_prefs", MODE_PRIVATE)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Handle the splash screen transition.
+        val splashScreen = installSplashScreen()
+
         super.onCreate(savedInstanceState)
 
-        supportActionBar?.hide()
+        // Check if user is logged in
+        if (!isUserLoggedIn()) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            return
+        }
 
+        supportActionBar?.hide()
         setContentView(R.layout.activity_main)
 
         initializeViews()
         setupDifficultySpinner()
         setupButtonListeners()
         setupCluesButtons()
+    }
+
+    private fun isUserLoggedIn(): Boolean {
+        return sharedPreferences.getBoolean("is_logged_in", false)
     }
 
     private fun initializeViews() {
