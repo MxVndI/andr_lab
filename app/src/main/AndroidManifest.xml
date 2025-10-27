@@ -9,9 +9,9 @@
         android:theme="@style/Theme.AppStarting"
         android:supportsRtl="true">
 
-        <!-- Теперь RegisterActivity — первая -->
+        <!-- Главная активность -->
         <activity
-            android:name=".RegisterActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Labs">
@@ -20,19 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- Остальные экраны -->
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Labs" />
-
-        <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Labs" />
     </application>
 
 </manifest>
