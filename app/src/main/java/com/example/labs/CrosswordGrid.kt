@@ -25,7 +25,7 @@ fun CrosswordGrid(
     onCellSelected: (Int, Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val cellSize = 35.dp
+    val cellSize = 40.dp
 
     Card(
         modifier = modifier
@@ -48,8 +48,8 @@ fun CrosswordGrid(
                         Box(
                             modifier = Modifier
                                 .size(cellSize)
-                                .padding(1.dp)
-                                .clip(RoundedCornerShape(4.dp))
+                                .padding(2.dp)
+                                .clip(RoundedCornerShape(6.dp))
                                 .background(
                                     when {
                                         cell.isBlack -> Color(0xFF2C2C2C)
@@ -60,9 +60,11 @@ fun CrosswordGrid(
                                 .border(
                                     1.dp,
                                     if (cell.isBlack) Color(0xFF2C2C2C) else MaterialTheme.colorScheme.outline,
-                                    RoundedCornerShape(4.dp)
+                                    RoundedCornerShape(6.dp)
                                 )
-                                .clickable { if (!cell.isBlack) onCellSelected(i, j) },
+                                .clickable(enabled = !cell.isBlack) {
+                                    onCellSelected(i, j)
+                                },
                             contentAlignment = Alignment.Center
                         ) {
                             if (!cell.isBlack) {
@@ -74,16 +76,17 @@ fun CrosswordGrid(
                                         color = MaterialTheme.colorScheme.primary,
                                         modifier = Modifier
                                             .align(Alignment.TopStart)
-                                            .padding(2.dp)
+                                            .padding(3.dp)
                                     )
                                 }
 
+                                // Отображаем букву пользователя
                                 Text(
                                     text = userLetter?.toString() ?: "",
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer 
-                                           else MaterialTheme.colorScheme.onSurface
+                                    color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer
+                                    else MaterialTheme.colorScheme.onSurface
                                 )
                             }
                         }

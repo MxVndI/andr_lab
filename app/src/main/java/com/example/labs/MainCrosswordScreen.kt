@@ -1,11 +1,10 @@
 // MainCrosswordScreen.kt
 package com.example.labs
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -15,14 +14,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.labs.CrosswordGenerator
-import com.example.labs.DropdownMenuBox
+import kotlinx.coroutines.delay
 
 @Composable
 fun MainCrosswordScreen(
@@ -30,12 +31,16 @@ fun MainCrosswordScreen(
 ) {
     val generator = remember { CrosswordGenerator() }
     var difficulty by remember { mutableStateOf("Легкий") }
-    var isDarkTheme by remember { mutableStateOf(false) }
 
     var grid by remember { mutableStateOf(Array(8) { Array(8) { CrosswordCell(0, 0, isBlack = true) } }) }
     var words by remember { mutableStateOf(listOf<CrosswordWord>()) }
     var selectedCell by remember { mutableStateOf<Pair<Int, Int>?>(null) }
     var userGrid by remember { mutableStateOf(Array(8) { Array(8) { null as Char? } }) }
+
+    // Для управления вводом
+    val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
+    var inputText by remember { mutableStateOf("") }
 
     // Функция для генерации нового кроссворда
     fun generateNewCrossword() {
@@ -44,11 +49,47 @@ fun MainCrosswordScreen(
         words = result.second
         selectedCell = null
         userGrid = Array(8) { Array(8) { null as Char? } }
+        inputText = ""
+        focusManager.clearFocus()
     }
 
     // Генерируем кроссворд при первом запуске
     LaunchedEffect(Unit) {
         generateNewCrossword()
+    }
+
+    // Функция для ввода буквы в выбранную клетку
+    fun inputLetter(letter: Char) {
+        selectedCell?.let { (row, col) ->
+            if (row < grid.size && col < grid[0].size && !grid[row][col].isBlack) {
+                // Создаем копию userGrid для обновления
+                val newUserGrid = Array(8) { i -> Array(8) { j -> userGrid[i][j] } }
+                newUserGrid[row][col] = letter
+                userGrid = newUserGrid
+            }
+        }
+    }
+
+    // Функция для очистки выбранной клетки
+    fun clearSelectedCell() {
+        selectedCell?.let { (row, col) ->
+            if (row < grid.size && col < grid[0].size && !grid[row][col].isBlack) {
+                val newUserGrid = Array(8) { i -> Array(8) { j -> userGrid[i][j] } }
+                newUserGrid[row][col] = null
+                userGrid = newUserGrid
+            }
+        }
+    }
+
+    // Автоматически фокусируемся на поле ввода при выборе клетки
+    LaunchedEffect(selectedCell) {
+        if (selectedCell != null) {
+            delay(100)
+            focusRequester.requestFocus()
+            inputText = ""
+        } else {
+            focusManager.clearFocus()
+        }
     }
 
     Column(
@@ -98,7 +139,7 @@ fun MainCrosswordScreen(
                 )
                 DropdownMenuBox(
                     selectedValue = difficulty,
-                    onValueChange = { 
+                    onValueChange = {
                         difficulty = it
                         generateNewCrossword()
                     },
@@ -115,9 +156,11 @@ fun MainCrosswordScreen(
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }
-                IconButton(onClick = { 
+                IconButton(onClick = {
                     userGrid = Array(8) { Array(8) { null as Char? } }
                     selectedCell = null
+                    inputText = ""
+                    focusManager.clearFocus()
                 }) {
                     Icon(
                         imageVector = Icons.Default.Clear,
@@ -141,11 +184,12 @@ fun MainCrosswordScreen(
                 selectedCell = selectedCell,
                 onCellSelected = { row, col ->
                     selectedCell = Pair(row, col)
+                    inputText = ""
                 }
             )
         }
 
-        // Simple virtual keyboard for input
+        // Простое поле ввода
         if (selectedCell != null) {
             Card(
                 modifier = Modifier
@@ -156,156 +200,64 @@ fun MainCrosswordScreen(
                 Column(
                     modifier = Modifier.padding(12.dp)
                 ) {
+                    Text(
+                        text = "Введите букву для выбранной клетки:",
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+
+                    // Простое текстовое поле
+                    OutlinedTextField(
+                        value = inputText,
+                        onValueChange = { newText ->
+                            if (newText.length <= 1) {
+                                inputText = newText.uppercase()
+                                if (newText.isNotEmpty()) {
+                                    val letter = newText.last().uppercaseChar()
+                                    inputLetter(letter)
+                                }
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .focusRequester(focusRequester),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Done
+                        ),
+                        placeholder = { Text("Введите одну букву") },
+                        singleLine = true
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    // Кнопки управления
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(
-                            text = "Выберите букву:",
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.Medium
-                        )
-                        
                         OutlinedButton(
                             onClick = {
-                                try {
-                                    selectedCell?.let { (row, col) ->
-                                        if (row < grid.size && col < grid[0].size && !grid[row][col].isBlack) {
-                                            userGrid[row][col] = null
-                                        }
-                                    }
-                                } catch (e: Exception) {
-                                    // Ignore errors
-                                }
+                                clearSelectedCell()
+                                inputText = ""
                             },
-                            modifier = Modifier.height(32.dp)
+                            modifier = Modifier.weight(1f)
                         ) {
-                            Text(
-                                text = "Очистить",
-                                fontSize = 12.sp
-                            )
+                            Text("Очистить клетку")
                         }
-                    }
-                    
-                    // Simple keyboard with basic letters
-                    val basicLetters = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ"
-                    
-                    // First row
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        basicLetters.substring(0, 8).forEach { letter ->
-                            OutlinedButton(
-                                onClick = {
-                                    try {
-                                        selectedCell?.let { (row, col) ->
-                                            if (row < grid.size && col < grid[0].size && !grid[row][col].isBlack) {
-                                                userGrid[row][col] = letter
-                                            }
-                                        }
-                                    } catch (e: Exception) {
-                                        // Ignore errors
-                                    }
-                                },
-                                modifier = Modifier.size(36.dp)
-                            ) {
-                                Text(
-                                    text = letter.toString(),
-                                    fontSize = 14.sp
-                                )
-                            }
-                        }
-                    }
-                    
-                    Spacer(modifier = Modifier.height(4.dp))
-                    
-                    // Second row
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        basicLetters.substring(8, 16).forEach { letter ->
-                            OutlinedButton(
-                                onClick = {
-                                    try {
-                                        selectedCell?.let { (row, col) ->
-                                            if (row < grid.size && col < grid[0].size && !grid[row][col].isBlack) {
-                                                userGrid[row][col] = letter
-                                            }
-                                        }
-                                    } catch (e: Exception) {
-                                        // Ignore errors
-                                    }
-                                },
-                                modifier = Modifier.size(36.dp)
-                            ) {
-                                Text(
-                                    text = letter.toString(),
-                                    fontSize = 14.sp
-                                )
-                            }
-                        }
-                    }
-                    
-                    Spacer(modifier = Modifier.height(4.dp))
-                    
-                    // Third row
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        basicLetters.substring(16, 24).forEach { letter ->
-                            OutlinedButton(
-                                onClick = {
-                                    try {
-                                        selectedCell?.let { (row, col) ->
-                                            if (row < grid.size && col < grid[0].size && !grid[row][col].isBlack) {
-                                                userGrid[row][col] = letter
-                                            }
-                                        }
-                                    } catch (e: Exception) {
-                                        // Ignore errors
-                                    }
-                                },
-                                modifier = Modifier.size(36.dp)
-                            ) {
-                                Text(
-                                    text = letter.toString(),
-                                    fontSize = 14.sp
-                                )
-                            }
-                        }
-                    }
-                    
-                    Spacer(modifier = Modifier.height(4.dp))
-                    
-                    // Fourth row
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        basicLetters.substring(24, 32).forEach { letter ->
-                            OutlinedButton(
-                                onClick = {
-                                    try {
-                                        selectedCell?.let { (row, col) ->
-                                            if (row < grid.size && col < grid[0].size && !grid[row][col].isBlack) {
-                                                userGrid[row][col] = letter
-                                            }
-                                        }
-                                    } catch (e: Exception) {
-                                        // Ignore errors
-                                    }
-                                },
-                                modifier = Modifier.size(36.dp)
-                            ) {
-                                Text(
-                                    text = letter.toString(),
-                                    fontSize = 14.sp
-                                )
-                            }
+
+                        Spacer(modifier = Modifier.width(8.dp))
+
+                        OutlinedButton(
+                            onClick = {
+                                selectedCell = null
+                                inputText = ""
+                                focusManager.clearFocus()
+                            },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text("Готово")
                         }
                     }
                 }
@@ -317,9 +269,9 @@ fun MainCrosswordScreen(
             val (row, col) = selectedCell!!
             val currentWord = words.find { word ->
                 (word.direction == Direction.HORIZONTAL && word.row == row && col >= word.col && col < word.col + word.word.length) ||
-                (word.direction == Direction.VERTICAL && word.col == col && row >= word.row && row < word.row + word.word.length)
+                        (word.direction == Direction.VERTICAL && word.col == col && row >= word.row && row < word.row + word.word.length)
             }
-            
+
             if (currentWord != null) {
                 Card(
                     modifier = Modifier
@@ -366,7 +318,7 @@ fun MainCrosswordScreen(
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
-                    
+
                     // Show words in two columns
                     val wordsPerColumn = (words.size + 1) / 2
                     Row(
@@ -396,7 +348,7 @@ fun MainCrosswordScreen(
                                 }
                             }
                         }
-                        
+
                         // Right column
                         if (words.size > wordsPerColumn) {
                             Column(
