@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Цвета для сплэш-скрина в темной теме -->
+    <color name="splash_background">#FF121212</color> <!-- Темный для ночной темы -->
+    <color name="app_background">#FF121212</color>
+</resources>

@@ -1,41 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Labs Crossword</string>
-
-    <!-- Общие строки -->
-    <string name="error_required_field">Обязательное поле</string>
-    <string name="error_invalid_email">Неверный формат email</string>
-    <string name="error_short_password">Пароль должен содержать минимум 6 символов</string>
-    <string name="error_password_mismatch">Пароли не совпадают</string>
-
-    <!-- Регистрация -->
+    <string name="app_name">Кроссворд Генератор</string>
+    <string name="login_title">Вход в систему</string>
     <string name="register_title">Регистрация</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Пароль</string>
     <string name="confirm_password_hint">Подтвердите пароль</string>
-    <string name="register_button">Зарегистрироваться</string>
-    <string name="login_link">Уже есть аккаунт? Войдите</string>
-
-    <!-- Логин -->
-    <string name="login_title">Вход в систему</string>
     <string name="login_button">Войти</string>
-    <string name="register_link">Нет аккаунта? Зарегистрируйтесь</string>
-
-    <!-- Главный экран -->
-    <string name="start_game">Начать</string>
-    <string name="new_crossword">Новый</string>
-    <string name="check_crossword">Проверить</string>
-    <string name="clear_crossword">Очистить</string>
-    <string name="save_crossword">Сохранить</string>
-    <string name="horizontal_clues">Горизонтальные подсказки</string>
-    <string name="vertical_clues">Вертикальные подсказки</string>
-    <string name="crossword_area">Область для кроссворда</string>
-    <string name="select_clues_direction">Выберите направление подсказок</string>
-    <string name="button_start">Старт</string>
-    <string name="button_new">Новый</string>
-    <string name="button_check">Проверить</string>
-    <string name="button_clear">Очистить</string>
-    <string name="button_save">Сохранить</string>
-
-    <!-- Тексты -->
+    <string name="register_button">Зарегистрироваться</string>
+    <string name="no_account">Нет аккаунта? Зарегистрируйтесь</string>
+    <string name="have_account">Уже есть аккаунт? Войдите</string>
+    <string name="crossword_title">Кроссворд</string>
+    <string name="difficulty_label">Сложность:</string>
+    <string name="easy_difficulty">Легкий</string>
+    <string name="medium_difficulty">Средний</string>
+    <string name="hard_difficulty">Сложный</string>
+    <string name="stats_title">Статистика</string>
+    <string name="progress_title">Прогресс</string>
+    <string name="achievements_title">Достижения</string>
+    <string name="share_stats">Поделиться статистикой</string>
+    <string name="back_to_crossword">Вернуться к кроссворду</string>
+    <string name="completed_puzzles">Решено кроссвордов</string>
+    <string name="current_streak">Текущая серия</string>
+    <string name="average_time">Среднее время</string>
+    <string name="novice_achievement">Новичок</string>
+    <string name="amateur_achievement">Любитель</string>
+    <string name="expert_achievement">Эксперт</string>
+    <string name="novice_description">Решите первый кроссворд</string>
+    <string name="amateur_description">Решите 3 кроссворда</string>
+    <string name="expert_description">Решите 5 кроссвордов</string>
+    <string name="enter_letter">Введите букву для выбранной клетки</string>
+    <string name="clear_cell">Очистить клетку</string>
+    <string name="done">Готово</string>
+    <string name="enter_single_letter">Введите одну букву</string>
+    <string name="hint">Подсказка</string>
+    <string name="words_in_crossword">Слова в кроссворде</string>
+    <string name="new_crossword">Новый кроссворд</string>
+    <string name="clear_all">Очистить все</string>
+    <string name="logout">Выйти</string>
 </resources>

@@ -1,4 +1,3 @@
-// VirtualKeyboard.kt
 package com.example.labs
 
 import androidx.compose.foundation.layout.*

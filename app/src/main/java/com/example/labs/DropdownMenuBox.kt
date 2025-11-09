@@ -1,4 +1,3 @@
-// DropdownMenuBox.kt
 package com.example.labs
 
 import androidx.compose.foundation.layout.Box
@@ -27,20 +26,19 @@ fun DropdownMenuBox(
                 text = selectedValue,
                 style = MaterialTheme.typography.bodyMedium
             )
-        }
-
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            options.forEach { option ->
-                DropdownMenuItem(
-                    text = { Text(option) },
-                    onClick = {
-                        onValueChange(option)
-                        expanded = false
-                    }
-                )
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                options.forEach { option ->
+                    DropdownMenuItem(
+                        text = { Text(option) },
+                        onClick = {
+                            onValueChange(option)
+                            expanded = false
+                        }
+                    )
+                }
             }
         }
     }

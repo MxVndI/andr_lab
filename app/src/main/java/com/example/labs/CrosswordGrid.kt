@@ -1,4 +1,3 @@
-// CrosswordGrid.kt
 package com.example.labs
 
 import androidx.compose.foundation.background
@@ -80,7 +79,6 @@ fun CrosswordGrid(
                                     )
                                 }
 
-                                // Отображаем букву пользователя
                                 Text(
                                     text = userLetter?.toString() ?: "",
                                     fontSize = 18.sp,

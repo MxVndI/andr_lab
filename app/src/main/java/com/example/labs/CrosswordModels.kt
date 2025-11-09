@@ -1,4 +1,3 @@
-// CrosswordModels.kt
 package com.example.labs
 
 data class CrosswordCell(
@@ -19,6 +18,5 @@ data class CrosswordWord(
 )
 
 enum class Direction {
-    HORIZONTAL,
-    VERTICAL
+    HORIZONTAL, VERTICAL
 }
