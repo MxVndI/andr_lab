@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
@@ -79,7 +80,7 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = "Кроссворд Генератор",
+                        text = stringResource(R.string.app_title),
                         style = MaterialTheme.typography.headlineLarge,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -89,7 +90,7 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = "Войдите в систему",
+                        text = stringResource(R.string.login_subtitle),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f),
                         textAlign = TextAlign.Center
@@ -114,7 +115,7 @@ fun LoginScreen(
                             emailError = false
                             loginError = false
                         },
-                        label = { Text("Email") },
+                        label = { Text(stringResource(R.string.email_hint)) },
                         leadingIcon = {
                             Icon(Icons.Default.Email, "Email")
                         },
@@ -128,7 +129,7 @@ fun LoginScreen(
                         },
                         supportingText = {
                             if (emailError) {
-                                Text("Введите email")
+                                Text(stringResource(R.string.enter_email))
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
@@ -145,7 +146,7 @@ fun LoginScreen(
                             passwordError = false
                             loginError = false
                         },
-                        label = { Text("Пароль") },
+                        label = { Text(stringResource(R.string.password_hint)) },
                         leadingIcon = {
                             Icon(Icons.Default.Lock, "Пароль")
                         },
@@ -159,7 +160,7 @@ fun LoginScreen(
                         },
                         supportingText = {
                             if (passwordError) {
-                                Text("Введите пароль")
+                                Text(stringResource(R.string.enter_password))
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
@@ -170,7 +171,7 @@ fun LoginScreen(
 
                     if (loginError) {
                         Text(
-                            "Неверный email или пароль",
+                            stringResource(R.string.wrong_credentials),
                             color = MaterialTheme.colorScheme.error,
                             modifier = Modifier.padding(top = 8.dp)
                         )
@@ -207,7 +208,7 @@ fun LoginScreen(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            "Войти",
+                            stringResource(R.string.login_button),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Medium
                         )
@@ -219,7 +220,7 @@ fun LoginScreen(
                         onClick = onNavigateToRegister,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Нет аккаунта? Зарегистрируйтесь")
+                        Text(stringResource(R.string.no_account))
                     }
                 }
             }

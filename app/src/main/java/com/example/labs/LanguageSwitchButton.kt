@@ -26,6 +26,7 @@ fun LanguageSwitchButton(themeManager: ThemeManager) {
                 onClick = {
                     themeManager.setLanguage("ru")
                     expanded = false
+                    // Активность пересоздастся автоматически через MainActivity
                     (context as? android.app.Activity)?.recreate()
                 }
             )
@@ -34,6 +35,7 @@ fun LanguageSwitchButton(themeManager: ThemeManager) {
                 onClick = {
                     themeManager.setLanguage("en")
                     expanded = false
+                    // Активность пересоздастся автоматически через MainActivity
                     (context as? android.app.Activity)?.recreate()
                 }
             )

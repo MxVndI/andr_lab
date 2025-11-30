@@ -19,18 +19,29 @@ import com.example.labs.ui.theme.LabsTheme
 class MainActivity : ComponentActivity() {
     private var keepSplashOnScreen = true
     private val TAG = "MainActivity"
+    private lateinit var themeManager: ThemeManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-
+        themeManager = ThemeManager(this)
+        themeManager.applySavedLanguage()
         splashScreen.setKeepOnScreenCondition { keepSplashOnScreen }
 
         setContent {
             val context = LocalContext.current
-            val themeManager = remember { ThemeManager(context) }
+            val currentLanguage = themeManager.currentLanguage
 
             var dbInitialized by remember { mutableStateOf(false) }
+            var previousLanguage by remember { mutableStateOf(currentLanguage) }
+
+            // Пересоздаем активность при изменении языка
+            LaunchedEffect(currentLanguage) {
+                if (dbInitialized && currentLanguage != previousLanguage) {
+                    previousLanguage = currentLanguage
+                    recreate()
+                }
+            }
 
             LaunchedEffect(Unit) {
                 Log.d(TAG, "Starting database initialization...")

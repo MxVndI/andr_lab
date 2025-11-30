@@ -9,5 +9,6 @@ data class CrosswordWordEntity(
     val word: String,
     val clue: String,
     val difficulty: String,
-    val length: Int
+    val length: Int,
+    val language: String = "ru"
 )

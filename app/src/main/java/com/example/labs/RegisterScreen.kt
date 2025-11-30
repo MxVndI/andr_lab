@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
@@ -47,7 +48,6 @@ fun RegisterScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Кнопки настроек в правом верхнем углу
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
@@ -80,7 +80,7 @@ fun RegisterScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = "Создать аккаунт",
+                        text = stringResource(R.string.register_title_text),
                         style = MaterialTheme.typography.headlineLarge,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSecondaryContainer,
@@ -90,7 +90,7 @@ fun RegisterScreen(
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = "Присоединяйтесь к игре!",
+                        text = stringResource(R.string.register_subtitle),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.8f),
                         textAlign = TextAlign.Center
@@ -114,14 +114,14 @@ fun RegisterScreen(
                             emailError = false
                             registerError = ""
                         },
-                        label = { Text("Email") },
+                        label = { Text(stringResource(R.string.email_hint)) },
                         leadingIcon = {
                             Icon(Icons.Default.Email, "Email")
                         },
                         isError = emailError,
                         supportingText = {
                             if (emailError) {
-                                Text("Введите корректный email")
+                                Text(stringResource(R.string.enter_correct_email))
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
@@ -138,14 +138,14 @@ fun RegisterScreen(
                             passwordError = false
                             registerError = ""
                         },
-                        label = { Text("Пароль") },
+                        label = { Text(stringResource(R.string.password_hint)) },
                         leadingIcon = {
                             Icon(Icons.Default.Lock, "Пароль")
                         },
                         isError = passwordError,
                         supportingText = {
                             if (passwordError) {
-                                Text("Пароль должен содержать минимум 6 символов")
+                                Text(stringResource(R.string.password_min_length))
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
@@ -163,14 +163,14 @@ fun RegisterScreen(
                             confirmPasswordError = false
                             registerError = ""
                         },
-                        label = { Text("Подтвердите пароль") },
+                        label = { Text(stringResource(R.string.confirm_password_hint)) },
                         leadingIcon = {
                             Icon(Icons.Default.Lock, "Подтверждение пароля")
                         },
                         isError = confirmPasswordError,
                         supportingText = {
                             if (confirmPasswordError) {
-                                Text("Пароли не совпадают")
+                                Text(stringResource(R.string.passwords_not_match))
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
@@ -200,7 +200,7 @@ fun RegisterScreen(
                                 if (success) {
                                     onRegisterSuccess()
                                 } else {
-                                    registerError = "Пользователь с таким email уже существует"
+                                    registerError = context.getString(R.string.user_exists)
                                 }
                             }
                         },
@@ -219,7 +219,7 @@ fun RegisterScreen(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            "Зарегистрироваться",
+                            stringResource(R.string.register_button),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Medium
                         )
@@ -231,7 +231,7 @@ fun RegisterScreen(
                         onClick = onNavigateToLogin,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Уже есть аккаунт? Войдите")
+                        Text(stringResource(R.string.have_account))
                     }
                 }
             }

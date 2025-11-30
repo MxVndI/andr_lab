@@ -1,5 +1,6 @@
 package com.example.labs
 
+import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
@@ -53,10 +54,24 @@ class ThemeManager(private val context: Context) {
             configuration.locale = locale
         }
 
+        // Обновляем конфигурацию для всего приложения
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             context.createConfigurationContext(configuration)
         }
 
         resources.updateConfiguration(configuration, resources.displayMetrics)
+
+        // Перезагружаем все активности
+        (context.applicationContext as? Application)?.apply {
+            // Сохраняем новую локаль для всех будущих активностей
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                resources.configuration.setLocales(android.content.res.Resources.getSystem().configuration.locales)
+            }
+        }
+    }
+
+    // Функция для применения языка при запуске приложения
+    fun applySavedLanguage() {
+        updateAppLanguage(currentLanguage)
     }
 }

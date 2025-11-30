@@ -12,8 +12,8 @@ fun CrosswordApp(themeManager: ThemeManager) {
     val context = LocalContext.current
     val authManager = remember { AuthManager(context) }
 
-    // Простая проверка авторизации
-    val startDestination = if (authManager.isUserLoggedIn()) "main" else "login"
+    // Всегда показываем экран входа
+    val startDestination = "login"
 
     NavHost(
         navController = navController,

@@ -1,14 +1,16 @@
 package com.example.labs
 
 import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Database
 
 @Dao
 interface CrosswordWordsDao {
     @Query("SELECT * FROM crossword_words WHERE difficulty = :difficulty ORDER BY RANDOM() LIMIT :limit")
     suspend fun getRandomWordsByDifficulty(difficulty: String, limit: Int): List<CrosswordWordEntity>
 
-    @Query("SELECT * FROM crossword_words WHERE difficulty = :difficulty AND length <= :maxLength ORDER BY RANDOM() LIMIT :limit")
-    suspend fun getRandomWordsByDifficultyAndLength(difficulty: String, maxLength: Int, limit: Int): List<CrosswordWordEntity>
+    @Query("SELECT * FROM crossword_words WHERE difficulty = :difficulty AND length <= :maxLength AND language = :language ORDER BY RANDOM() LIMIT :limit")
+    suspend fun getRandomWordsByDifficultyAndLength(difficulty: String, maxLength: Int, limit: Int, language: String): List<CrosswordWordEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWord(word: CrosswordWordEntity)
@@ -19,13 +21,13 @@ interface CrosswordWordsDao {
     @Query("DELETE FROM crossword_words")
     suspend fun deleteAll()
 
-    @Query("SELECT COUNT(*) FROM crossword_words WHERE difficulty = :difficulty")
-    suspend fun getWordCountByDifficulty(difficulty: String): Int
+    @Query("SELECT COUNT(*) FROM crossword_words WHERE difficulty = :difficulty AND language = :language")
+    suspend fun getWordCountByDifficulty(difficulty: String, language: String): Int
 }
 
 @Database(
     entities = [UserProgress::class, CrosswordStats::class, CrosswordWordEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class CrosswordDatabase : RoomDatabase() {

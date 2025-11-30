@@ -50,4 +50,16 @@ class AuthManager(private val context: Context) {
     fun logout() {
         sharedPreferences.edit().putBoolean("is_logged_in", false).apply()
     }
+
+    fun saveAvatarPath(path: String) {
+        sharedPreferences.edit().putString("avatar_path", path).apply()
+    }
+
+    fun getAvatarPath(): String? {
+        return sharedPreferences.getString("avatar_path", null)
+    }
+
+    fun removeAvatar() {
+        sharedPreferences.edit().remove("avatar_path").apply()
+    }
 }
