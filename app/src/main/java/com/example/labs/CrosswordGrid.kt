@@ -33,6 +33,7 @@ fun CrosswordGrid(
     selectedCell: Pair<Int, Int>?,
     onCellSelected: (Int, Int) -> Unit,
     onLetterInput: (Int, Int, Char?) -> Unit,
+    cellBackgroundColor: (Int, Int) -> Color = { _, _ -> Color.Unspecified },
     modifier: Modifier = Modifier
 ) {
     val cellSize = 40.dp
@@ -55,6 +56,8 @@ fun CrosswordGrid(
                         val isSelected = selectedCell?.let { it.first == i && it.second == j } == true
                         val userLetter = userGrid[i][j]
                         val focusRequester = remember { FocusRequester() }
+                        val backgroundColor = cellBackgroundColor(i, j)
+                        val isCorrectlyGuessed = backgroundColor != Color.Unspecified
 
                         // Автоматически запрашиваем фокус для выбранной клетки
                         LaunchedEffect(isSelected) {
@@ -71,13 +74,18 @@ fun CrosswordGrid(
                                 .background(
                                     when {
                                         cell.isBlack -> Color(0xFF2C2C2C)
+                                        backgroundColor != Color.Unspecified -> backgroundColor
                                         isSelected -> MaterialTheme.colorScheme.primaryContainer
                                         else -> MaterialTheme.colorScheme.surface
                                     }
                                 )
                                 .border(
                                     1.dp,
-                                    if (cell.isBlack) Color(0xFF2C2C2C) else MaterialTheme.colorScheme.outline,
+                                    when {
+                                        cell.isBlack -> Color(0xFF2C2C2C)
+                                        backgroundColor != Color.Unspecified -> Color(0xFF4CAF50).copy(alpha = 0.7f)
+                                        else -> MaterialTheme.colorScheme.outline
+                                    },
                                     RoundedCornerShape(6.dp)
                                 )
                                 .clickable(enabled = !cell.isBlack) {
@@ -91,7 +99,11 @@ fun CrosswordGrid(
                                         text = cell.number.toString(),
                                         fontSize = 10.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.primary,
+                                        color = if (isCorrectlyGuessed) {
+                                            Color.White
+                                        } else {
+                                            MaterialTheme.colorScheme.primary
+                                        },
                                         modifier = Modifier
                                             .align(Alignment.TopStart)
                                             .padding(3.dp)
@@ -131,8 +143,11 @@ fun CrosswordGrid(
                                         textStyle = TextStyle(
                                             fontSize = 18.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer
-                                            else MaterialTheme.colorScheme.onSurface,
+                                            color = when {
+                                                isCorrectlyGuessed -> Color.White
+                                                isSelected -> MaterialTheme.colorScheme.onPrimaryContainer
+                                                else -> MaterialTheme.colorScheme.onSurface
+                                            },
                                             textAlign = TextAlign.Center
                                         ),
                                         keyboardOptions = KeyboardOptions(
@@ -140,7 +155,26 @@ fun CrosswordGrid(
                                             autoCorrect = false
                                         ),
                                         singleLine = true,
-                                        readOnly = false
+                                        readOnly = false,
+                                        decorationBox = { innerTextField ->
+                                            Box(
+                                                contentAlignment = Alignment.Center,
+                                                modifier = Modifier.fillMaxSize()
+                                            ) {
+                                                innerTextField()
+                                                if (userLetter == null && !isSelected && !isCorrectlyGuessed) {
+                                                    // Показываем подсказку для пустых клеток (если есть)
+                                                    if (cell.letter != null) {
+                                                        Text(
+                                                            text = "",
+                                                            fontSize = 10.sp,
+                                                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
+                                                            textAlign = TextAlign.Center
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                        }
                                     )
                                 }
                             }

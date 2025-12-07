@@ -14,4 +14,13 @@ interface UserDao {
 
     @Delete
     suspend fun delete(user: UserEntity)
+
+    @Query("UPDATE users SET coins = coins + :delta WHERE email = :email")
+    suspend fun changeCoins(email: String, delta: Int)
+
+    @Query("UPDATE users SET coins = :value WHERE email = :email")
+    suspend fun setCoins(email: String, value: Int)
+
+    @Query("SELECT coins FROM users WHERE email = :email")
+    fun getCoins(email: String): Flow<Int?>
 }
